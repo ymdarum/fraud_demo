@@ -34,47 +34,38 @@ This repo follows a simple "frontend / backend" split.
 
 ## Setup
 
-From the repo root:
+Do this once from the **project root** (the folder that contains `backend/`).
 
-```bash
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r backend/requirements.txt
-```
+1. **Create a virtual environment**
+
+   ```bash
+   python -m venv .venv
+   ```
+
+2. **Activate it** (pick one for your OS/shell)
+   - **Windows (PowerShell):** `.\.venv\Scripts\Activate.ps1`
+   - **Windows (CMD):** `.\.venv\Scripts\activate.bat`
+   - **macOS / Linux:** `source .venv/bin/activate`
+
+3. **Install dependencies**
+
+   ```bash
+   pip install -r backend/requirements.txt
+   ```
 
 ---
 
-## Run the demo (end-to-end)
+## Run the demo
 
-### 1) Generate synthetic payments
+Run these **in order** from the project root, with the virtual environment **activated**.
 
-```bash
-python backend/payment_simulator.py
-```
+| Step | Command | What it does |
+|------|---------|--------------|
+| 1 | `python backend/payment_simulator.py` | Creates `dataset.csv` (synthetic payments). |
+| 2 | `python backend/fraud_model.py` | Creates `dataset_scored.csv` (risk scores). Prints top risky transactions. |
+| 3 | `streamlit run backend/dashboard.py` | Starts the dashboard. Open the URL shown in the terminal (e.g. http://localhost:8501). |
 
-This creates:
-
-- `dataset.csv`
-
-### 2) Train + score fraud risk
-
-```bash
-python backend/fraud_model.py
-```
-
-This creates:
-
-- `dataset_scored.csv`
-
-The script also prints the **top risky transactions** so you can immediately see the result.
-
-### 3) Start the dashboard
-
-```bash
-streamlit run backend/dashboard.py
-```
-
-Open the local URL shown in the terminal (Streamlit prints it).
+**Summary:** Generate data → Score with the model → View results in the dashboard.
 
 ---
 
@@ -93,23 +84,6 @@ Open the local URL shown in the terminal (Streamlit prints it).
 - Unusual payment hour (1 AM – 4 AM)
 - Suspicious new beneficiary (“Unknown Offshore Ltd”)
 - Higher-risk country corridor (HK)
-
----
-
-## Pushing to GitHub
-
-The repo is ready to push. From the project root:
-
-```bash
-git add .
-git commit -m "Initial commit: corporate payment fraud demo"
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git branch -M main
-git push -u origin main
-```
-
-Replace `YOUR_USERNAME` and `YOUR_REPO` with your GitHub username and repository name.  
-Generated files (`dataset.csv`, `dataset_scored.csv`) and the virtual environment (`.venv/`) are in `.gitignore` and will not be committed.
 
 ---
 
